@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Part 4</title>
+</head>
+<body>
+<h2> Click and drag </h2>
+
+<style>
+    canvas {
+        /* Draw canvas border */
+        width: 500px;
+        height: 500px;
+        border: 5px #CCC solid;
+        background-color: #75CCCC;
+    }
+</style>
+
+<div class="container">
+    <canvas id="myCanvas" width="500" height="500">your browser does not support HTML5 canvas tag.</canvas>
+</div>
+<script>
+    var canvas = document.getElementById('myCanvas'),
+            mainContext = canvas.getContext('2d'),
+            circle = {},
+            drag = false,
+            circleMade = false,
+            mouseMoved = false;
+
+    //Function to draw circle
+    function draw() {
+        // set color in the circle
+        mainContext.fillStyle = "#006699";
+        mainContext.fill();
+        mainContext.beginPath();
+        mainContext.arc(circle.X, circle.Y, circle.radius, 0, 2.0 * Math.PI);
+        mainContext.stroke();
+
+    }
+
+    //here it will get the mouse when moving down
+    function mouseDown(e) {
+        circle.startX = e.pageX - this.offsetLeft;
+        circle.startY = e.pageY - this.offsetTop;
+
+        circle.X = circle.startX;
+        circle.Y = circle.startY;
+
+        if (!circleMade) {
+            circle.radius = 0;
+        }
+
+        drag = true;
+    }
+
+    //here it will get mouse movement to the top
+    function mouseUp() {
+        drag = false;
+        circleMade = true;
+
+        if(!mouseMoved){
+            circle = {};
+            circleMade = false;
+            mainContext.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        mouseMoved = false;
+    }
+
+    //get mouse movemnt when circle is been draw
+    //and when it is dragged.
+    function mouseMove(e) {
+        if (drag) {
+            mouseMoved = true;
+            circle.X = e.pageX - this.offsetLeft;
+            circle.Y = e.pageY - this.offsetTop;
+            if (!circleMade) {
+                circle.radius = Math.sqrt(Math.pow((circle.X - circle.startX), 2) + Math.pow((circle.Y - circle.startY), 2));
+            }
+            mainContext.clearRect(0, 0, canvas.width, canvas.height);
+            draw();
+
+        }
+    }
+    function init() {
+        canvas.addEventListener('mousedown', mouseDown, false);
+        canvas.addEventListener('mouseup', mouseUp, false);
+        canvas.addEventListener('mousemove', mouseMove, false);
+
+    }
+
+    init();
+
+    /*I learned this from few tutorials online and from our online book:
+    Reference to the online tutorials:
+    http://stackoverflow.com/questions/21594756/drawing-circle-ellipse-on-html5-canvas-using-mouse-events
+     http://stackoverflow.com/questions/13271433/making-a-circle-that-moves
+    */
+</script>
+</body>
+</html>

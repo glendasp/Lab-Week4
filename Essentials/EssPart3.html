@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+<style>
+    canvas {
+        /* Draw canvas border */
+        width: 500px;
+        height: 500px;
+        border: 5px #CCC solid;
+        fillStyle: "#75CCCC"
+    }
+</style>
+
+<div id="container">
+    <canvas id="myCanvas" height="500" width="500"> </canvas>
+    <script>
+
+        // get the canvas element
+        var Canvas = document.getElementById("myCanvas");
+        // variable to initialize whatever gets returned from calling.
+        var mainContext = Canvas.getContext("2d"); //2d - argument for getContext function. It specifies what kind of drawing object to retunr
+
+        var canvasWidth = Canvas.width;
+        var canvasHeight = Canvas.height;
+
+        var angle = 0;
+        var deltaAngle = 0.040;
+        var radius = 128;
+        var centerX = 256;
+        var centerY = 256;
+
+
+        //Clear everything inside canvas
+        mainContext.clearRect(0, 0, canvasWidth, canvasHeight);
+
+        // color in the background
+        //mainContext.fillStyle = "#75CCCC";
+        //mainContext.fillRect(0, 0, canvasWidth, canvasHeight);
+
+        function update(){
+            angle += deltaAngle;
+        }
+
+        // draw the circles
+        function draw() {
+            mainContext.clearRect(0, 0, 500, 500); //clear the previous frame
+            //This part will calculate the x and y position based on the angle
+            var x = centerX;
+            var y = Math.sin(angle) * radius + centerY;
+
+            mainContext.beginPath();
+            mainContext.arc(x, y, 80, 0, Math.PI * 2);
+            mainContext.fill();
+
+            //mainContext.arc(200, y, 20, 0, Math.PI * 2);
+            //mainContext.closePath();
+            /*
+            mainContext.arc(440, 300, radius, 0, Math.PI * 2, false);
+            mainContext.closePath();
+
+            mainContext.arc(60, 463, radius, 0, Math.PI * 2, false);
+            mainContext.closePath();*/
+
+            //set background color
+            mainContext.fillStyle = "#75CCCC";
+            mainContext.fillRect(0, 0, canvasWidth, canvasHeight);
+
+            // set color in the circle
+            mainContext.fillStyle = "#006699";
+            mainContext.fill();
+
+
+        }
+
+       function setMoves(){
+           update();
+           draw();
+           requestAnimationFrame(setMoves);
+       }
+        requestAnimationFrame(setMoves);
+
+      /* I got help from:
+       https://www.kirupa.com/html5/animating_many_things_on_a_canvas.htm
+       http://codepen.io/zadvorsky/post/circles-are-pretty-awesome
+
+       */
+
+    </script>
+</div>
+</body>
+</html>

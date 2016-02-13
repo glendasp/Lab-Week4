@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 4 - Ess3 </title>
+    <head>
+        <title>My first Canvas</title>
+        <style>
+            canvas {
+                /* Draw canvas border */
+                border: 5px #CCC solid;
+            }
+        </style>
+    </head>
+
+<body>
+<p> Tic Tac Toes </p>
+<div id="container">
+    <canvas id="myCanvas" height="520" width="500"> </canvas>
+        <script>
+
+            function draw() { //Function to draw the Circle
+
+                // get the canvas element
+                var Canvas = document.getElementById("myCanvas");
+                // variable to initialize whatever gets returned from calling.
+                var mainContext = Canvas.getContext("2d"); //2d - argument for getContext function. It specifies what kind of drawing object to retunr
+                var canvasWidth = Canvas.width;
+                var canvasHeight = Canvas.height;
+
+
+                //Clear everything inside canvas
+                mainContext.clearRect(0, 0, canvasWidth, canvasHeight);
+
+                // color in the background
+                mainContext.fillStyle = "#75CCCC";
+                mainContext.fillRect(0, 0, canvasWidth, canvasHeight);
+
+                // draw the circles
+                mainContext.beginPath();
+                var radius = 50;
+
+                mainContext.arc(240, 105, radius, 0, Math.PI * 2, false);
+                mainContext.closePath();
+
+                mainContext.arc(440, 105, radius, 0, Math.PI * 2, false); // para os lados, para cima e para baixo
+                mainContext.closePath();
+
+                mainContext.arc(440, 300, radius, 0, Math.PI * 2, false);
+                mainContext.closePath();
+
+                mainContext.arc(60, 463, radius, 0, Math.PI * 2, false);
+                mainContext.closePath();
+
+                // color in the circle
+                mainContext.fillStyle = "#006699";
+                mainContext.fill();
+
+
+
+                //Draw squares
+
+                var square = document.getElementById("myCanvas");
+                var ctx = square.getContext("2d");
+                mainContext.fillStyle = "#FF0011";
+                mainContext.fillRect(388,430,80,80);
+
+                //draw right eye
+               // var squareeyeL = document.getElementById("myCanvas");
+                //var ctx = squareeyeL.getContext("2d");
+                //Daw a red Rectangule
+                ctx.fillStyle = "#FF0011";
+                ctx.fillRect(20,60,80,80); // posicao esquerda, posicao para cima e para baixo, tamanho lados, tamanho altura
+
+                ctx.fillStyle = "#FF0011";
+                ctx.fillRect(200,250,80,80);
+
+                ctx.fillStyle = "#FF0011";
+                ctx.fillRect(20,250,80,80);
+
+               //Start lines
+
+                var canvas = document.getElementById('myCanvas');
+                var context = canvas.getContext('2d');
+
+                context.lineWidth = 20;
+
+                //linha veztical top
+                context.beginPath();
+                context.moveTo(140, 0);
+                context.lineTo(140, 600);
+                context.stroke();
+
+                //linha veztical bottom
+                context.beginPath();
+                context.moveTo(340,0);
+                context.lineTo(340,650);
+                context.stroke();
+
+                //linha horizontal esquerda
+                context.beginPath();
+                context.moveTo(0,200);
+                context.lineTo(500,200);
+                //context.lineWidth = 20;
+                //context.lineCap = "butt";
+                context.stroke();
+
+                //linha horizontal direita
+                context.beginPath();
+                context.moveTo(0,400);
+                context.lineTo(500,400);
+                context.lineWidth = 20;
+               // context.lineCap = "square";
+                context.stroke();
+
+
+            }
+
+            draw();
+        </script>
+</div>
+<script>
+
+</script>
+</body>
+</html>
