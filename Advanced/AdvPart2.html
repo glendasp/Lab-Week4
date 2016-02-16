@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>First Page with a Google Map</title>
+
+    <!--From the Google maps developer documentation
+    https://developers.google.com/maps/tutorials/fundamentals/adding-a-google-map-->
+
+    <!-- <link rel="stylesheet" type="text/css" href="mapstyle.css"> -->
+
+    <style>
+        #map {
+            width:500px;
+            height:400px
+        }
+    </style>
+
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+
+    <script>
+        function initalize() {
+
+            //Got this example from https://developers.google.com/maps/documentation/javascript/examples/maptype-styled-simple
+            var customMapType = new google.maps.StyledMapType([
+                {
+                    stylers: [
+                        //{hue: '#890000'},
+                        {visibility: 'simplified'},
+                        {gamma: 0.5},
+                        {weight: 0.5}
+                    ]
+                },
+                {
+                    elementType: 'labels',
+                    stylers: [{visibility: 'off'}]
+                },
+                {
+                    featureType: 'water',
+                    //stylers: [{color: '#890000'}]
+                }
+            ], {
+                name: 'Custom Style'
+            });
+
+            var customMapTypeId = 'custom_style';
+
+
+            //For this part on I used Clara's exampler from week 4 hello-google-maps
+
+            //The mapCanvas is the HTML element that will hold the map
+            var mapCanvas = document.getElementById("map");
+
+            //Set three required options to display the map
+            //Other options such as preventing scrolling or zooming, are available
+            var mapOptions = {
+                center : new google.maps.LatLng(47, -93),   // Lat and long to center the map
+                zoom : 5,                                   // 0 = the whole world, 22 = max zoom
+                //mapTypeId : google.maps.MapTypeId.ROADMAP   //or SATELLITE, HYBRID or TERRAIN
+
+                mapTypeControlOptions: {
+                    mapTypeIds: [customMapTypeId]//, google.maps.MapTypeId.SATELLITE]
+                }
+
+            };
+
+
+            //And create the map, with the options specified
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+            map.mapTypes.set(customMapTypeId, customMapType);//idea from https://developers.google.com/maps/documentation/javascript/examples/maptype-styled-simple
+            map.setMapTypeId(customMapTypeId);               //
+
+            //Can add features, points of interest, routes, lines etc. to maps
+            //Adding a marker to the map
+            //Like the map, set the options for the marker
+            var minneapolis = {
+                position : new google.maps.LatLng(44.97, -93.26), //Where?
+                map : map,                       //What map?
+                draggable : false,               //No moving the marker!
+                title : "Minneapolis is here",    //Tooltip/rollover text
+            };
+
+            var stCloud = {
+                position : new google.maps.LatLng(45.55, -94.16), //Where?
+                map : map,                       //What map?
+                draggable : false,               //No moving the marker!
+                title : "This is St Cloud",    //Tooltip/rollover text
+            };
+
+            var princeton = {
+                position : new google.maps.LatLng(45.56, -93.59), //Where?
+                map : map,                       //What map?
+                draggable : false,               //No moving the marker!
+                title : "This is Princeton",    //Tooltip/rollover text
+            };
+
+            //Create the marker, with the options above
+            //A new marker with the map option set is automatically added to
+            //the map it belongs to.
+            var mplsMarker = new google.maps.Marker(minneapolis);
+            var stcloudMarker = new google.maps.Marker(stCloud);
+            var princetonMarker = new google.maps.Marker(princeton);
+
+
+            var mplsowindow = new google.maps.InfoWindow ( {
+                content : "Minneapolis is right here"
+            });
+
+            mplsMarker.addListener("click", function() {
+                mplsowindow.open(map, mplsMarker);
+            });
+
+            var stcloudowindow = new google.maps.InfoWindow ( {
+                content : "Wrong!! This is St. Cloud"
+            });
+
+            stcloudMarker.addListener("click", function() {
+                stcloudowindow.open(map, stcloudMarker);
+            });
+
+            var princetonowindow = new google.maps.InfoWindow ( {
+                content : "Wrong!! This is Princeton"
+            });
+
+            princetonMarker.addListener("click", function() {
+                princetonowindow.open(map, princetonMarker);
+            });
+        }
+
+        //Load map by calling initalize() method; once page has loaded.
+        google.maps.event.addDomListener(window, "load", initalize);
+
+    </script>
+
+</head>
+<body>
+
+<h1>Can you find Minneapolis?</h1>
+<div id="map"></div>
+
+<P>The <a href="https://developers.google.com/maps/documentation/javascript/reference">Google Maps API reference was very helpful.</a></P>
+</body>
+</html>
